@@ -16,19 +16,21 @@ def get_products():
 
 @app.post('/products')
 def create_or_update_product():
-  try:
-    product = request.get_json()
+  product = request.get_json()
 
-    db_product = { 'sku': product['sku'], 'attributes': json.dumps(product['attributes'])}
-    db = get_db()
+  if 'sku' not in product:
+     return { 'message': '\'sku\' is required' }, 400
+  
+  attributes = {} if 'attributes' not in product else product['attributes']
 
-    db.execute('INSERT INTO products (sku, attributes) VALUES (?, ?) ON CONFLICT(sku) DO UPDATE SET attributes = ?', (db_product['sku'], db_product['attributes'], db_product['attributes']))
+  db_product = { 'sku': product['sku'], 'attributes': json.dumps(attributes) }
 
-    result = db.execute('SELECT id, sku, attributes FROM products WHERE sku LIKE ?', (db_product['sku'],)).fetchone()
-    db.commit()
-    
-    return result, 200
-  except Exception as error:
-    print(error)
-     
-  return {}, 500
+  db = get_db()
+  db.execute('INSERT INTO products (sku, attributes) VALUES (?, ?) ON CONFLICT(sku) DO UPDATE SET attributes = ?', 
+              (db_product['sku'], db_product['attributes'], db_product['attributes']))
+  db.commit()
+
+  savedProduct = db.execute('SELECT id, sku, attributes FROM products WHERE sku LIKE ?', 
+                      (db_product['sku'],)).fetchone()
+  
+  return savedProduct, 200
