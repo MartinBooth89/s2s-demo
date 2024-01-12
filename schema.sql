@@ -1,5 +1,5 @@
 CREATE TABLE products (
-  id INT PRIMARY KEY,
+  id INTEGER PRIMARY KEY ASC,
   sku TEXT UNIQUE,
   attributes TEXT
 )
