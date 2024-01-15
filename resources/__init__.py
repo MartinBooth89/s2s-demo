@@ -1,0 +1,1 @@
+from resources.product import blueprint as ProductBlueprint
