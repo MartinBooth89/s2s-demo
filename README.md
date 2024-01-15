@@ -27,13 +27,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Initialise Sqlite database by running:
-
-```
-python init_db.py
-```
-
-5. Finally, run the API:
+4. Finally, run the API:
 
 ```
 flask run
@@ -48,12 +42,49 @@ WARNING: This is a development server. Do not use it in a production deployment.
 Press CTRL+C to quit
 ```
 
+5. You can now navigate to the Swagger UI page to get more information on the available API endpoints at http://127.0.0.1:5000/swagger-ui
+
 ## Endpoints
 
-```
-GET /products
-```
+### GET /products
+
+Try this out using Curl:
 
 ```
-POST /products
+curl -X GET  http://127.0.0.1:5000/products
+```
+
+Output:
+
+```
+[
+  {
+    "attributes": {
+      "price": 12.34
+    },
+    "id": 1,
+    "sku": "SKU1432348"
+  },
+  ...
+]
+```
+
+### POST /products
+
+Try this out using Curl:
+
+```
+curl -X POST  http://127.0.0.1:5000/products -H "Content-Type: application/json" -d '{"sku": "SKU0001", "attributes": {"price": 12.34}}'
+```
+
+Output:
+
+```
+{
+  "attributes": {
+    "price": 12.34
+  },
+  "id": 4,
+  "sku": "SKU0001"
+}
 ```
