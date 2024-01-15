@@ -1,1 +1,1 @@
-from product import GetProductSchema, ProductSchema
+from schemas.product import GetProductSchema, ProductSchema

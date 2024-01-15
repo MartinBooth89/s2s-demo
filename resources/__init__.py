@@ -1,1 +1,1 @@
-from product import blueprint as ProductBlueprint
+from resources.product import blueprint as ProductBlueprint
